@@ -1,10 +1,9 @@
-
 """
 Rotas de pedidos (checkout, histórico)
 """
 from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify
 from flask_login import login_required, current_user
-from models import db, Cart, Order, OrderItem
+from models import db, Cart, CartItem, Order, OrderItem
 import requests
 from config import Config
 
@@ -50,7 +49,7 @@ def calcular_frete(cep):
         
         return frete, data
     
-    except Exception as e:
+    except Exception:
         return None, None
 
 
@@ -161,9 +160,11 @@ def pagamento(order_id):
         return redirect(url_for('main.index'))
     
     if request.method == 'POST':
-        # Simular processamento de pagamento
-        # Em produção, aqui integraria com gateway real
+        # Descontar estoque dos produtos
+        for item in order.items:
+            item.product.estoque -= item.quantidade
         
+        # Atualizar status para pago
         order.status = 'pago'
         db.session.commit()
         
@@ -193,11 +194,11 @@ def meus_pedidos():
     """Histórico de pedidos do usuário"""
     page = request.args.get('page', 1, type=int)
     
-    orders = Order.query.filter_by(user_id=current_user.id).order_by(
+    pedidos = Order.query.filter_by(user_id=current_user.id).order_by(
         Order.created_at.desc()
     ).paginate(page=page, per_page=Config.ORDERS_PER_PAGE, error_out=False)
     
-    return render_template('orders/meus_pedidos.html', orders=orders)
+    return render_template('orders/meus_pedidos.html', orders=pedidos)
 
 
 @orders_bp.route('/detalhes/<int:order_id>')
