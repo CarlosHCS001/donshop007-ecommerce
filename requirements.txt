@@ -1,29 +1,29 @@
 # Framework Web
-Flask==3.0.0
-Werkzeug==3.0.1
+Flask>=3.0.0
+Werkzeug>=3.0.1
 
 # Banco de Dados
-Flask-SQLAlchemy==3.1.1
-psycopg2-binary==2.9.10
-SQLAlchemy==2.0.23
+Flask-SQLAlchemy>=3.1.1
+psycopg2-binary>=2.9.9
+SQLAlchemy>=2.0.36
 
 # Autenticação
-Flask-Login==0.6.3
+Flask-Login>=0.6.3
 
 # Formulários
-Flask-WTF==1.2.1
-WTForms==3.1.1
-email-validator==2.1.0
+Flask-WTF>=1.2.1
+WTForms>=3.1.1
+email-validator>=2.1.0
 
 # Migrations
-Flask-Migrate==4.0.5
+Flask-Migrate>=4.0.7
 
 # Utilidades
-python-dotenv==1.0.0
-requests==2.31.0
+python-dotenv>=1.0.0
+requests>=2.31.0
 
 # Produção
-gunicorn==23.0.0
+gunicorn>=23.0.0
 
 # Imagens
-Pillow==10.4.0
+Pillow>=10.4.0
