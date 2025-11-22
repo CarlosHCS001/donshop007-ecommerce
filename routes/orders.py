@@ -1,5 +1,5 @@
 """
-Rotas de pedidos (checkout, histórico)
+Rotas de pedidos
 """
 from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify
 from flask_login import login_required, current_user
@@ -11,9 +11,8 @@ orders_bp = Blueprint('orders', __name__)
 
 
 def calcular_frete(cep):
-    """Calcula o frete baseado no CEP (simulado por região)"""
+    # consulta o viacep e retorna o valor do frete por região
     try:
-        # Consultar API ViaCEP
         response = requests.get(f'https://viacep.com.br/ws/{cep}/json/')
         
         if response.status_code != 200:
@@ -24,10 +23,9 @@ def calcular_frete(cep):
         if 'erro' in data:
             return None, None
         
-        # Determinar frete por região (baseado no estado)
         estado = data.get('uf', '')
         
-        # Estados por região
+        # define frete por região
         sudeste = ['SP', 'RJ', 'MG', 'ES']
         sul = ['PR', 'SC', 'RS']
         nordeste = ['BA', 'SE', 'AL', 'PE', 'PB', 'RN', 'CE', 'PI', 'MA']
@@ -45,7 +43,7 @@ def calcular_frete(cep):
         elif estado in centro_oeste:
             frete = Config.FRETE_CENTRO_OESTE
         else:
-            frete = 20.00  # Valor padrão
+            frete = 20.00
         
         return frete, data
     
@@ -56,7 +54,6 @@ def calcular_frete(cep):
 @orders_bp.route('/checkout', methods=['GET', 'POST'])
 @login_required
 def checkout():
-    """Página de checkout"""
     cart = Cart.query.filter_by(user_id=current_user.id).first()
     
     if not cart or cart.item_count == 0:
@@ -64,7 +61,7 @@ def checkout():
         return redirect(url_for('cart.ver_carrinho'))
     
     if request.method == 'POST':
-        # Pegar dados do formulário
+        # dados do form
         nome_destinatario = request.form.get('nome_destinatario')
         cep = request.form.get('cep', '').replace('-', '').replace('.', '')
         endereco = request.form.get('endereco')
@@ -74,19 +71,17 @@ def checkout():
         cidade = request.form.get('cidade')
         estado = request.form.get('estado')
         
-        # Validações
         if not all([nome_destinatario, cep, endereco, numero, bairro, cidade, estado]):
             flash('Preencha todos os campos obrigatórios.', 'danger')
             return render_template('orders/checkout.html', cart=cart)
         
-        # Calcular frete
         frete, dados_cep = calcular_frete(cep)
         
         if frete is None:
             flash('CEP inválido. Por favor, verifique.', 'danger')
             return render_template('orders/checkout.html', cart=cart)
         
-        # Criar pedido
+        # cria o pedido
         order = Order(
             user_id=current_user.id,
             total=cart.total,
@@ -103,9 +98,9 @@ def checkout():
         )
         
         db.session.add(order)
-        db.session.flush()  # Para obter o ID do pedido
+        db.session.flush()
         
-        # Criar itens do pedido
+        # adiciona os itens do carrinho no pedido
         for cart_item in cart.items:
             order_item = OrderItem(
                 order_id=order.id,
@@ -117,12 +112,10 @@ def checkout():
             )
             db.session.add(order_item)
         
-        # Limpar carrinho
+        # limpa o carrinho
         CartItem.query.filter_by(cart_id=cart.id).delete()
-        
         db.session.commit()
         
-        # Redirecionar para página de pagamento
         return redirect(url_for('orders.pagamento', order_id=order.id))
     
     return render_template('orders/checkout.html', cart=cart)
@@ -131,9 +124,7 @@ def checkout():
 @orders_bp.route('/consultar-cep/<cep>')
 @login_required
 def consultar_cep(cep):
-    """Consultar CEP via API"""
     cep = cep.replace('-', '').replace('.', '')
-    
     frete, dados = calcular_frete(cep)
     
     if frete is None:
@@ -151,20 +142,18 @@ def consultar_cep(cep):
 @orders_bp.route('/pagamento/<int:order_id>', methods=['GET', 'POST'])
 @login_required
 def pagamento(order_id):
-    """Página de pagamento (simulado)"""
     order = Order.query.get_or_404(order_id)
     
-    # Verificar se o pedido pertence ao usuário
+    # verifica se é do usuario
     if order.user_id != current_user.id:
         flash('Acesso negado.', 'danger')
         return redirect(url_for('main.index'))
     
     if request.method == 'POST':
-        # Descontar estoque dos produtos
+        # desconta do estoque
         for item in order.items:
             item.product.estoque -= item.quantidade
         
-        # Atualizar status para pago
         order.status = 'pago'
         db.session.commit()
         
@@ -177,10 +166,8 @@ def pagamento(order_id):
 @orders_bp.route('/confirmacao/<int:order_id>')
 @login_required
 def confirmacao(order_id):
-    """Página de confirmação do pedido"""
     order = Order.query.get_or_404(order_id)
     
-    # Verificar se o pedido pertence ao usuário
     if order.user_id != current_user.id:
         flash('Acesso negado.', 'danger')
         return redirect(url_for('main.index'))
@@ -191,7 +178,6 @@ def confirmacao(order_id):
 @orders_bp.route('/meus-pedidos')
 @login_required
 def meus_pedidos():
-    """Histórico de pedidos do usuário"""
     page = request.args.get('page', 1, type=int)
     
     pedidos = Order.query.filter_by(user_id=current_user.id).order_by(
@@ -204,10 +190,8 @@ def meus_pedidos():
 @orders_bp.route('/detalhes/<int:order_id>')
 @login_required
 def detalhes(order_id):
-    """Detalhes de um pedido"""
     order = Order.query.get_or_404(order_id)
     
-    # Verificar se o pedido pertence ao usuário
     if order.user_id != current_user.id:
         flash('Acesso negado.', 'danger')
         return redirect(url_for('main.index'))
