@@ -1,6 +1,5 @@
-
 """
-Rotas de autenticação (login, cadastro, logout)
+Rotas de autenticação
 """
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
@@ -11,7 +10,6 @@ auth_bp = Blueprint('auth', __name__)
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    """Página de login"""
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
     
@@ -25,7 +23,7 @@ def login():
         if user and user.check_password(senha):
             login_user(user, remember=lembrar)
             
-            # Redirecionar para a página que o usuário tentou acessar
+            # redireciona pra página que tentou acessar antes
             next_page = request.args.get('next')
             if next_page:
                 return redirect(next_page)
@@ -40,7 +38,6 @@ def login():
 
 @auth_bp.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
-    """Página de cadastro"""
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
     
@@ -50,7 +47,7 @@ def cadastro():
         senha = request.form.get('senha')
         confirmar_senha = request.form.get('confirmar_senha')
         
-        # Validações
+        # validações básicas
         if not nome or not email or not senha:
             flash('Todos os campos são obrigatórios.', 'danger')
             return render_template('auth/cadastro.html')
@@ -63,19 +60,18 @@ def cadastro():
             flash('A senha deve ter pelo menos 6 caracteres.', 'danger')
             return render_template('auth/cadastro.html')
         
-        # Verificar se o email já existe
+        # verifica se já tem conta com esse email
         if User.query.filter_by(email=email).first():
             flash('Este email já está cadastrado.', 'danger')
             return render_template('auth/cadastro.html')
         
-        # Criar novo usuário
+        # cria o usuario
         user = User(nome=nome, email=email)
         user.set_password(senha)
-        
         db.session.add(user)
         db.session.commit()
         
-        # Criar carrinho para o usuário
+        # cria carrinho vazio pro usuario
         cart = Cart(user_id=user.id)
         db.session.add(cart)
         db.session.commit()
@@ -89,7 +85,6 @@ def cadastro():
 @auth_bp.route('/logout')
 @login_required
 def logout():
-    """Logout do usuário"""
     logout_user()
     flash('Você saiu da sua conta.', 'info')
     return redirect(url_for('main.index'))
