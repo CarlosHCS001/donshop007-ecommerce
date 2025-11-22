@@ -1,43 +1,239 @@
 {% extends "base.html" %}
 {% block title %}Pagamento - DonShop007{% endblock %}
+
 {% block content %}
 <div class="container py-5">
     <h1 class="section-title mb-4">Pagamento</h1>
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
+    
+    <div class="row">
+        <!-- coluna esquerda - formas de pagamento -->
+        <div class="col-md-7">
+            <div class="card mb-4">
                 <div class="card-body p-4">
-                    <h4 class="text-navy mb-4">Dados do Cartão (Simulado)</h4>
-                    <form method="POST">
-                        <div class="mb-3">
-                            <label>Número do Cartão</label>
-                            <input type="text" class="form-control" placeholder="0000 0000 0000 0000" maxlength="19">
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label>Validade</label>
-                                <input type="text" class="form-control" placeholder="MM/AA" maxlength="5">
+                    <h4 class="text-navy mb-4"><i class="bi bi-credit-card"></i> Forma de Pagamento</h4>
+                    
+                    <form method="POST" id="pagamentoForm">
+                        <!-- opcoes de pagamento -->
+                        <div class="mb-4">
+                            <div class="payment-option" onclick="selectPayment('cartao')">
+                                <input type="radio" name="forma_pagamento" id="cartao" value="cartao" checked>
+                                <label for="cartao" class="ms-2 mb-0" style="cursor:pointer;">
+                                    <i class="bi bi-credit-card-2-front"></i> Cartão de Crédito
+                                </label>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label>CVV</label>
-                                <input type="text" class="form-control" placeholder="123" maxlength="3">
+                            
+                            <div class="payment-option" onclick="selectPayment('pix')">
+                                <input type="radio" name="forma_pagamento" id="pix" value="pix">
+                                <label for="pix" class="ms-2 mb-0" style="cursor:pointer;">
+                                    <i class="bi bi-qr-code"></i> PIX
+                                </label>
+                            </div>
+                            
+                            <div class="payment-option" onclick="selectPayment('boleto')">
+                                <input type="radio" name="forma_pagamento" id="boleto" value="boleto">
+                                <label for="boleto" class="ms-2 mb-0" style="cursor:pointer;">
+                                    <i class="bi bi-upc-scan"></i> Boleto Bancário
+                                </label>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label>Nome no Cartão</label>
-                            <input type="text" class="form-control" placeholder="Como está no cartão">
+                        
+                        <!-- dados do cartao -->
+                        <div id="dados-cartao">
+                            <h5 class="text-navy mb-3">Dados do Cartão</h5>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Número do Cartão</label>
+                                <input type="text" class="form-control" id="numero_cartao" placeholder="0000 0000 0000 0000" maxlength="19">
+                                <div class="invalid-feedback">Número do cartão inválido</div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <label class="form-label">Validade</label>
+                                    <input type="text" class="form-control" id="validade" placeholder="MM/AA" maxlength="5">
+                                    <div class="invalid-feedback">Data inválida</div>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label class="form-label">CVV</label>
+                                    <input type="text" class="form-control" id="cvv" placeholder="123" maxlength="4">
+                                    <div class="invalid-feedback">CVV inválido</div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Nome no Cartão</label>
+                                <input type="text" class="form-control" id="nome_cartao" placeholder="Como está impresso no cartão">
+                                <div class="invalid-feedback">Digite o nome no cartão</div>
+                            </div>
                         </div>
-                        <hr>
-                        <div class="d-flex justify-content-between mb-3">
-                            <strong>Total a pagar:</strong>
-                            <strong class="text-rose">R$ {{ "%.2f"|format(order.total_com_frete) }}</strong>
+                        
+                        <!-- info pix -->
+                        <div id="dados-pix" style="display:none;">
+                            <div class="text-center p-4 bg-light rounded">
+                                <i class="bi bi-qr-code display-1 text-rose"></i>
+                                <p class="mt-3 mb-0">O QR Code será gerado após confirmar o pedido</p>
+                                <small class="text-muted">Pagamento instantâneo</small>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-rose w-100">Confirmar Pagamento</button>
-                        <p class="text-muted small text-center mt-3"><i class="bi bi-shield-check"></i> Pagamento seguro e simulado para fins de demonstração</p>
+                        
+                        <!-- info boleto -->
+                        <div id="dados-boleto" style="display:none;">
+                            <div class="text-center p-4 bg-light rounded">
+                                <i class="bi bi-upc-scan display-1 text-rose"></i>
+                                <p class="mt-3 mb-0">O boleto será gerado após confirmar o pedido</p>
+                                <small class="text-muted">Vencimento em 3 dias úteis</small>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-rose w-100 mt-4" id="btnPagar">
+                            <i class="bi bi-lock-fill"></i> Confirmar Pagamento
+                        </button>
+                        
+                        <p class="text-muted small text-center mt-3">
+                            <i class="bi bi-shield-check"></i> Pagamento seguro e simulado para demonstração
+                        </p>
                     </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- coluna direita - resumo -->
+        <div class="col-md-5">
+            <!-- endereco de entrega -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="text-navy mb-3"><i class="bi bi-geo-alt"></i> Endereço de Entrega</h5>
+                    <p class="mb-1"><strong>{{ order.nome_destinatario }}</strong></p>
+                    <p class="text-muted small mb-0">
+                        {{ order.endereco }}, {{ order.numero }}
+                        {% if order.complemento %} - {{ order.complemento }}{% endif %}<br>
+                        {{ order.bairro }}<br>
+                        {{ order.cidade }} - {{ order.estado }}<br>
+                        CEP: {{ order.cep }}
+                    </p>
+                </div>
+            </div>
+            
+            <!-- resumo do pedido -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="text-navy mb-3"><i class="bi bi-receipt"></i> Resumo do Pedido</h5>
+                    
+                    {% for item in order.items %}
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">{{ item.quantidade }}x {{ item.product.nome }}</span>
+                        <span>R$ {{ "%.2f"|format(item.subtotal) }}</span>
+                    </div>
+                    {% endfor %}
+                    
+                    <hr>
+                    
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Subtotal</span>
+                        <span>R$ {{ "%.2f"|format(order.total) }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Frete</span>
+                        <span>R$ {{ "%.2f"|format(order.frete) }}</span>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="d-flex justify-content-between">
+                        <strong class="text-navy">Total</strong>
+                        <strong class="text-rose fs-5">R$ {{ "%.2f"|format(order.total_com_frete) }}</strong>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// seleciona forma de pagamento
+function selectPayment(tipo) {
+    document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
+    document.getElementById(tipo).checked = true;
+    document.getElementById(tipo).closest('.payment-option').classList.add('selected');
+    
+    // mostra/esconde campos
+    document.getElementById('dados-cartao').style.display = tipo === 'cartao' ? 'block' : 'none';
+    document.getElementById('dados-pix').style.display = tipo === 'pix' ? 'block' : 'none';
+    document.getElementById('dados-boleto').style.display = tipo === 'boleto' ? 'block' : 'none';
+}
+
+// inicializa
+document.addEventListener('DOMContentLoaded', function() {
+    selectPayment('cartao');
+});
+
+// mascara numero do cartao
+document.getElementById('numero_cartao').addEventListener('input', function(e) {
+    let v = e.target.value.replace(/\D/g, '');
+    v = v.replace(/(\d{4})(?=\d)/g, '$1 ');
+    e.target.value = v.substring(0, 19);
+});
+
+// mascara validade
+document.getElementById('validade').addEventListener('input', function(e) {
+    let v = e.target.value.replace(/\D/g, '');
+    if (v.length >= 2) {
+        v = v.substring(0, 2) + '/' + v.substring(2, 4);
+    }
+    e.target.value = v;
+});
+
+// mascara cvv
+document.getElementById('cvv').addEventListener('input', function(e) {
+    e.target.value = e.target.value.replace(/\D/g, '').substring(0, 4);
+});
+
+// validacao do form
+document.getElementById('pagamentoForm').addEventListener('submit', function(e) {
+    const forma = document.querySelector('input[name="forma_pagamento"]:checked').value;
+    
+    if (forma === 'cartao') {
+        let valido = true;
+        
+        const numero = document.getElementById('numero_cartao');
+        const validade = document.getElementById('validade');
+        const cvv = document.getElementById('cvv');
+        const nome = document.getElementById('nome_cartao');
+        
+        // limpa erros
+        [numero, validade, cvv, nome].forEach(el => el.classList.remove('is-invalid'));
+        
+        // valida numero (16 digitos)
+        if (numero.value.replace(/\D/g, '').length < 16) {
+            numero.classList.add('is-invalid');
+            valido = false;
+        }
+        
+        // valida validade (MM/AA)
+        const validadeRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+        if (!validadeRegex.test(validade.value)) {
+            validade.classList.add('is-invalid');
+            valido = false;
+        }
+        
+        // valida cvv (3 ou 4 digitos)
+        if (cvv.value.length < 3) {
+            cvv.classList.add('is-invalid');
+            valido = false;
+        }
+        
+        // valida nome
+        if (nome.value.trim().length < 3) {
+            nome.classList.add('is-invalid');
+            valido = false;
+        }
+        
+        if (!valido) {
+            e.preventDefault();
+        }
+    }
+});
+</script>
 {% endblock %}
