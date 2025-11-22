@@ -193,7 +193,7 @@ def atualizar_status_pedido(id):
 @login_required
 @admin_required
 def listar_usuarios():
-    "
+    
     page = request.args.get('page', 1, type=int)
     usuarios = User.query.order_by(User.created_at.desc()).paginate(
         page=page, per_page=20, error_out=False
