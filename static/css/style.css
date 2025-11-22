@@ -1,11 +1,4 @@
-/* 
- * DonShop007 - Estilo Customizado
- * Paleta de Cores:
- * - Azul Marinho Escuro: #0a1929
- * - Branco Gelo: #f5f5f5
- * - Dourado Rosé: #b76e79
- * - Cinza: #4a4a4a
- */
+/* Estilos DonShop007 */
 
 :root {
     --color-navy: #0a1929;
@@ -16,7 +9,7 @@
     --font-secondary: 'Playfair Display', serif;
 }
 
-/* ==== ESTILOS GERAIS ==== */
+/* geral */
 
 body {
     font-family: var(--font-primary);
@@ -34,7 +27,7 @@ a {
     transition: all 0.3s ease;
 }
 
-/* ==== NAVBAR ==== */
+/* navbar */
 
 .bg-navy {
     background-color: var(--color-navy) !important;
@@ -66,7 +59,7 @@ a {
     border-radius: 50%;
 }
 
-/* ==== BOTÕES ==== */
+/* botoes */
 
 .btn-rose {
     background-color: var(--color-rose-gold);
@@ -115,7 +108,7 @@ a {
     box-shadow: 0 4px 8px rgba(10, 25, 41, 0.3);
 }
 
-/* ==== CARDS ==== */
+/* cards */
 
 .card {
     border: none;
@@ -157,7 +150,7 @@ a {
     font-family: var(--font-secondary);
 }
 
-/* ==== HERO SECTION ==== */
+/* hero */
 
 .hero-section {
     background: linear-gradient(135deg, var(--color-navy) 0%, #0f2942 100%);
@@ -197,7 +190,7 @@ a {
     font-weight: 500;
 }
 
-/* ==== SEÇÃO COMO FUNCIONA ==== */
+/* como funciona */
 
 .how-it-works {
     padding: 80px 0;
@@ -243,7 +236,7 @@ a {
     font-size: 0.9rem;
 }
 
-/* ==== PRODUTOS ==== */
+/* produtos */
 
 .product-grid {
     display: grid;
@@ -268,7 +261,7 @@ a {
     color: #ffc107;
 }
 
-/* ==== FILTROS ==== */
+/* filtros */
 
 .filter-section {
     background-color: white;
@@ -284,7 +277,7 @@ a {
     margin-bottom: 0.5rem;
 }
 
-/* ==== CARRINHO ==== */
+/* carrinho */
 
 .cart-item {
     background-color: white;
@@ -308,7 +301,7 @@ a {
     border-radius: 6px;
 }
 
-/* ==== CHECKOUT ==== */
+/* checkout */
 
 .order-summary {
     background-color: white;
@@ -333,7 +326,7 @@ a {
     margin-top: 1rem;
 }
 
-/* ==== AVALIAÇÕES ==== */
+/* avaliacoes */
 
 .review-card {
     background-color: white;
@@ -357,7 +350,7 @@ a {
     color: #ffc107;
 }
 
-/* ==== ADMIN ==== */
+/* admin */
 
 .admin-sidebar {
     background-color: white;
@@ -403,14 +396,40 @@ a {
     margin: 0;
 }
 
-/* ==== FOOTER ==== */
+/* footer - cores mais claras pra leitura */
+
+footer {
+    color: #e0e0e0;
+}
+
+footer p,
+footer li,
+footer a {
+    color: #c5c5c5 !important;
+}
 
 footer a:hover {
     color: var(--color-rose-gold) !important;
 }
 
+footer h5 {
+    color: #ffffff !important;
+}
+
+footer .text-muted {
+    color: #b0b0b0 !important;
+}
+
+footer i {
+    color: #c5c5c5;
+}
+
 .text-rose {
     color: var(--color-rose-gold) !important;
+}
+
+.social-icons a {
+    color: #c5c5c5 !important;
 }
 
 .social-icons a:hover {
@@ -418,7 +437,7 @@ footer a:hover {
     transform: translateY(-3px);
 }
 
-/* ==== UTILIDADES ==== */
+/* utilidades */
 
 .section-title {
     font-size: 2.5rem;
@@ -448,7 +467,7 @@ footer a:hover {
     background-color: rgba(183, 110, 121, 0.1) !important;
 }
 
-/* ==== RESPONSIVIDADE ==== */
+/* responsivo */
 
 @media (max-width: 768px) {
     .hero-title {
@@ -468,7 +487,7 @@ footer a:hover {
     }
 }
 
-/* ==== ANIMAÇÕES ==== */
+/* animacoes */
 
 @keyframes fadeInUp {
     from {
@@ -485,7 +504,7 @@ footer a:hover {
     animation: fadeInUp 0.6s ease-out;
 }
 
-/* ==== LOGIN SOCIAL (FAKE) ==== */
+/* login social */
 
 .social-login-btn {
     width: 100%;
