@@ -1,0 +1,524 @@
+/* 
+ * DonShop007 - Estilo Customizado
+ * Paleta de Cores:
+ * - Azul Marinho Escuro: #0a1929
+ * - Branco Gelo: #f5f5f5
+ * - Dourado Rosé: #b76e79
+ * - Cinza: #4a4a4a
+ */
+
+:root {
+    --color-navy: #0a1929;
+    --color-white-ice: #f5f5f5;
+    --color-rose-gold: #b76e79;
+    --color-gray: #4a4a4a;
+    --font-primary: 'Montserrat', sans-serif;
+    --font-secondary: 'Playfair Display', serif;
+}
+
+/* ==== ESTILOS GERAIS ==== */
+
+body {
+    font-family: var(--font-primary);
+    color: var(--color-gray);
+    background-color: var(--color-white-ice);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-secondary);
+    color: var(--color-navy);
+    font-weight: 600;
+}
+
+a {
+    transition: all 0.3s ease;
+}
+
+/* ==== NAVBAR ==== */
+
+.bg-navy {
+    background-color: var(--color-navy) !important;
+}
+
+.navbar-brand img {
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: var(--color-rose-gold);
+}
+
+.navbar-dark .navbar-nav .nav-link.active {
+    color: var(--color-rose-gold);
+}
+
+.badge.bg-rose {
+    background-color: var(--color-rose-gold) !important;
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 50%;
+}
+
+/* ==== BOTÕES ==== */
+
+.btn-rose {
+    background-color: var(--color-rose-gold);
+    color: white;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-rose:hover {
+    background-color: #a35d68;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(183, 110, 121, 0.3);
+}
+
+.btn-rose-outline {
+    background-color: transparent;
+    color: var(--color-rose-gold);
+    border: 2px solid var(--color-rose-gold);
+    padding: 0.4rem 1.2rem;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-rose-outline:hover {
+    background-color: var(--color-rose-gold);
+    color: white;
+}
+
+.btn-navy {
+    background-color: var(--color-navy);
+    color: white;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-navy:hover {
+    background-color: #0f2942;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(10, 25, 41, 0.3);
+}
+
+/* ==== CARDS ==== */
+
+.card {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.card-img-top {
+    height: 250px;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.card-title {
+    color: var(--color-navy);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.card-text {
+    color: var(--color-gray);
+}
+
+.price {
+    color: var(--color-rose-gold);
+    font-weight: 700;
+    font-size: 1.5rem;
+    font-family: var(--font-secondary);
+}
+
+/* ==== HERO SECTION ==== */
+
+.hero-section {
+    background: linear-gradient(135deg, var(--color-navy) 0%, #0f2942 100%);
+    color: white;
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(183,110,121,0.1)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,133.3C672,139,768,181,864,181.3C960,181,1056,139,1152,128C1248,117,1344,139,1392,149.3L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+    background-size: cover;
+    opacity: 0.3;
+}
+
+.hero-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.hero-subtitle {
+    font-size: 1.3rem;
+    color: var(--color-rose-gold);
+    font-weight: 500;
+}
+
+/* ==== SEÇÃO COMO FUNCIONA ==== */
+
+.how-it-works {
+    padding: 80px 0;
+}
+
+.step-card {
+    text-align: center;
+    padding: 2rem;
+    transition: all 0.3s ease;
+}
+
+.step-card:hover {
+    transform: translateY(-10px);
+}
+
+.step-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--color-rose-gold), #c98891);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 4px 12px rgba(183, 110, 121, 0.3);
+}
+
+.step-number {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 30px;
+    height: 30px;
+    background-color: var(--color-navy);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+/* ==== PRODUTOS ==== */
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.product-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--color-rose-gold);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    z-index: 1;
+}
+
+.rating {
+    color: #ffc107;
+}
+
+/* ==== FILTROS ==== */
+
+.filter-section {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 2rem;
+}
+
+.filter-label {
+    font-weight: 600;
+    color: var(--color-navy);
+    margin-bottom: 0.5rem;
+}
+
+/* ==== CARRINHO ==== */
+
+.cart-item {
+    background-color: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.cart-item-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.quantity-input {
+    width: 80px;
+    text-align: center;
+    border: 2px solid var(--color-rose-gold);
+    border-radius: 6px;
+}
+
+/* ==== CHECKOUT ==== */
+
+.order-summary {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 100px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.summary-total {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-top: 1rem;
+}
+
+/* ==== AVALIAÇÕES ==== */
+
+.review-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 1rem;
+}
+
+.review-author {
+    font-weight: 600;
+    color: var(--color-navy);
+}
+
+.review-date {
+    font-size: 0.85rem;
+    color: #999;
+}
+
+.stars i {
+    color: #ffc107;
+}
+
+/* ==== ADMIN ==== */
+
+.admin-sidebar {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 1.5rem;
+}
+
+.admin-menu-item {
+    padding: 0.8rem 1rem;
+    color: var(--color-gray);
+    text-decoration: none;
+    display: block;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    margin-bottom: 0.5rem;
+}
+
+.admin-menu-item:hover,
+.admin-menu-item.active {
+    background-color: var(--color-rose-gold);
+    color: white;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, var(--color-rose-gold), #c98891);
+    color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(183, 110, 121, 0.3);
+    text-align: center;
+}
+
+.stat-card h3 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card p {
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+}
+
+/* ==== FOOTER ==== */
+
+footer a:hover {
+    color: var(--color-rose-gold) !important;
+}
+
+.text-rose {
+    color: var(--color-rose-gold) !important;
+}
+
+.social-icons a:hover {
+    color: var(--color-rose-gold) !important;
+    transform: translateY(-3px);
+}
+
+/* ==== UTILIDADES ==== */
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background-color: var(--color-rose-gold);
+    border-radius: 2px;
+}
+
+.text-navy {
+    color: var(--color-navy) !important;
+}
+
+.bg-light-rose {
+    background-color: rgba(183, 110, 121, 0.1) !important;
+}
+
+/* ==== RESPONSIVIDADE ==== */
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+}
+
+/* ==== ANIMAÇÕES ==== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* ==== LOGIN SOCIAL (FAKE) ==== */
+
+.social-login-btn {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #e0e0e0;
+    background-color: white;
+    border-radius: 8px;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.social-login-btn i {
+    font-size: 1.3rem;
+}
+
+.social-login-btn.google {
+    border-color: #db4437;
+    color: #db4437;
+}
+
+.social-login-btn.facebook {
+    border-color: #3b5998;
+    color: #3b5998;
+}
+
+.social-login-btn.email {
+    border-color: var(--color-rose-gold);
+    color: var(--color-rose-gold);
+}

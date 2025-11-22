@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Pedido #{{ order.id }} - DonShop007{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <h1 class="section-title mb-4">Pedido #{{ order.id }}</h1>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="text-navy">Itens do Pedido</h5>
+                    {% for item in order.items %}
+                    <div class="d-flex align-items-center py-3 border-bottom">
+                        <img src="{{ url_for('static', filename='images/' ~ item.product.imagem_url) }}" style="width:80px;height:80px;object-fit:cover;" class="rounded me-3">
+                        <div class="flex-grow-1">
+                            <strong>{{ item.product.nome }}</strong><br>
+                            <small class="text-muted">Quantidade: {{ item.quantidade }}</small>
+                        </div>
+                        <strong>R$ {{ "%.2f"|format(item.subtotal) }}</strong>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="text-navy">Resumo</h5>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Subtotal:</span>
+                        <span>R$ {{ "%.2f"|format(order.total) }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Frete:</span>
+                        <span>R$ {{ "%.2f"|format(order.frete) }}</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <strong>Total:</strong>
+                        <strong class="text-rose">R$ {{ "%.2f"|format(order.total_com_frete) }}</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="text-navy">Entrega</h5>
+                    <p class="mb-1"><strong>{{ order.nome_destinatario }}</strong></p>
+                    <p class="text-muted small mb-0">
+                        {{ order.endereco }}, {{ order.numero }}<br>
+                        {{ order.bairro }}<br>
+                        {{ order.cidade }} - {{ order.estado }}<br>
+                        CEP: {{ order.cep }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

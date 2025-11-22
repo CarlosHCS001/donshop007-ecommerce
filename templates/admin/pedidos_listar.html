@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Gerenciar Pedidos - Admin{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <h1 class="section-title mb-4">Pedidos</h1>
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr><th>ID</th><th>Cliente</th><th>Total</th><th>Status</th><th>Data</th><th>Ações</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for pedido in pedidos.items %}
+                        <tr>
+                            <td>#{{ pedido.id }}</td>
+                            <td>{{ pedido.user.nome }}</td>
+                            <td>R$ {{ "%.2f"|format(pedido.total_com_frete) }}</td>
+                            <td><span class="badge bg-info">{{ pedido.status }}</span></td>
+                            <td>{{ pedido.created_at.strftime('%d/%m/%Y') }}</td>
+                            <td><a href="{{ url_for('admin.ver_pedido', id=pedido.id) }}" class="btn btn-sm btn-rose">Ver</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

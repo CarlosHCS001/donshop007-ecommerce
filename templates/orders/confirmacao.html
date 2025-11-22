@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Pedido Confirmado - DonShop007{% endblock %}
+{% block content %}
+<div class="container py-5 text-center">
+    <i class="bi bi-check-circle-fill text-success display-1"></i>
+    <h1 class="text-navy mt-4">Pedido Confirmado!</h1>
+    <p class="lead">Seu pedido #{{ order.id }} foi realizado com sucesso.</p>
+    <div class="alert alert-success mx-auto" style="max-width:500px;">
+        <strong>Total pago:</strong> R$ {{ "%.2f"|format(order.total_com_frete) }}
+    </div>
+    <p class="text-muted">Você receberá um email com os detalhes do pedido em breve.</p>
+    <div class="mt-4">
+        <a href="{{ url_for('orders.meus_pedidos') }}" class="btn btn-rose">Ver Meus Pedidos</a>
+        <a href="{{ url_for('products.listar') }}" class="btn btn-outline-secondary">Continuar Comprando</a>
+    </div>
+</div>
+{% endblock %}

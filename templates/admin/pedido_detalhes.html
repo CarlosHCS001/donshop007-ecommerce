@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Pedido #{{ pedido.id }} - Admin{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <h1 class="section-title mb-4">Pedido #{{ pedido.id }}</h1>
+    <div class="card">
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('admin.atualizar_status_pedido', id=pedido.id) }}">
+                <div class="mb-3">
+                    <label>Status:</label>
+                    <select name="status" class="form-select" style="max-width:200px;">
+                        <option value="pendente" {% if pedido.status == 'pendente' %}selected{% endif %}>Pendente</option>
+                        <option value="pago" {% if pedido.status == 'pago' %}selected{% endif %}>Pago</option>
+                        <option value="enviado" {% if pedido.status == 'enviado' %}selected{% endif %}>Enviado</option>
+                        <option value="entregue" {% if pedido.status == 'entregue' %}selected{% endif %}>Entregue</option>
+                        <option value="cancelado" {% if pedido.status == 'cancelado' %}selected{% endif %}>Cancelado</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-rose">Atualizar Status</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

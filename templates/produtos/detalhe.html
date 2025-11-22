@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}{{ produto.nome }} - DonShop007{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{ url_for('static', filename='images/' ~ produto.imagem_url) }}" class="img-fluid rounded" alt="{{ produto.nome }}">
+        </div>
+        <div class="col-md-6">
+            <h1 class="text-navy">{{ produto.nome }}</h1>
+            <div class="rating mb-3">
+                {% for i in range(5) %}
+                    {% if i < produto.average_rating %}<i class="bi bi-star-fill"></i>
+                    {% else %}<i class="bi bi-star"></i>{% endif %}
+                {% endfor %}
+                <span class="text-muted">({{ produto.review_count }} avaliações)</span>
+            </div>
+            <h2 class="price">R$ {{ "%.2f"|format(produto.preco) }}</h2>
+            <p class="text-muted">{{ produto.descricao }}</p>
+            <form method="POST" action="{{ url_for('cart.adicionar', product_id=produto.id) }}">
+                <div class="mb-3">
+                    <label class="form-label">Quantidade:</label>
+                    <input type="number" name="quantidade" class="form-control" value="1" min="1" max="10" style="width:100px;">
+                </div>
+                <button type="submit" class="btn btn-rose btn-lg w-100">
+                    <i class="bi bi-cart-plus"></i> Adicionar ao Carrinho
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-12">
+            <h3 class="text-navy mb-4">Avaliações</h3>
+            {% if current_user.is_authenticated and not ja_avaliou and produto.review_count < 10 %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5>Deixe sua avaliação</h5>
+                    <form method="POST" action="{{ url_for('products.avaliar', id=produto.id) }}">
+                        <div class="mb-3">
+                            <label>Nota:</label>
+                            <select name="rating" class="form-select" required>
+                                <option value="">Selecione</option>
+                                <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+                                <option value="4">⭐⭐⭐⭐ (4)</option>
+                                <option value="3">⭐⭐⭐ (3)</option>
+                                <option value="2">⭐⭐ (2)</option>
+                                <option value="1">⭐ (1)</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Comentário:</label>
+                            <textarea name="comentario" class="form-control" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-rose">Enviar Avaliação</button>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+            {% for review in reviews %}
+            <div class="review-card">
+                <strong>{{ review.user.nome }}</strong>
+                <div class="rating">
+                    {% for i in range(review.rating) %}<i class="bi bi-star-fill"></i>{% endfor %}
+                </div>
+                <p>{{ review.comentario }}</p>
+                <small class="text-muted">{{ review.created_at.strftime('%d/%m/%Y') }}</small>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

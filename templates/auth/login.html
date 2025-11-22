@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Login - DonShop007{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <h2 class="text-center mb-4 text-navy">Entrar</h2>
+                    
+                    <!-- Login Social (Fake - apenas visual) -->
+                    <div class="mb-4">
+                        <button class="social-login-btn google" disabled>
+                            <i class="bi bi-google"></i> Continuar com Google
+                        </button>
+                        <button class="social-login-btn facebook" disabled>
+                            <i class="bi bi-facebook"></i> Continuar com Facebook
+                        </button>
+                    </div>
+                    
+                    <div class="text-center mb-3">
+                        <span class="text-muted">ou</span>
+                    </div>
+                    
+                    <form method="POST" id="loginForm">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="senha" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="senha" name="senha" required>
+                        </div>
+                        
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="lembrar" name="lembrar">
+                            <label class="form-check-label" for="lembrar">Lembrar de mim</label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-rose w-100">Entrar</button>
+                    </form>
+                    
+                    <div class="text-center mt-4">
+                        <p class="text-muted">
+                            Não tem uma conta? 
+                            <a href="{{ url_for('auth.cadastro') }}" class="text-rose">Cadastre-se</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Carrinho - DonShop007{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <h1 class="section-title mb-4">Meu Carrinho</h1>
+    {% if cart.items.count() > 0 %}
+    <div class="row">
+        <div class="col-md-8">
+            {% for item in cart.items %}
+            <div class="cart-item">
+                <div class="row align-items-center">
+                    <div class="col-md-2">
+                        <img src="{{ url_for('static', filename='images/' ~ item.product.imagem_url) }}" class="cart-item-img" alt="{{ item.product.nome }}">
+                    </div>
+                    <div class="col-md-4">
+                        <h5>{{ item.product.nome }}</h5>
+                        <p class="text-muted">R$ {{ "%.2f"|format(item.product.preco) }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <form method="POST" action="{{ url_for('cart.atualizar', item_id=item.id) }}" id="update-form-{{ item.id }}">
+                            <input type="number" name="quantidade" value="{{ item.quantidade }}" min="1" class="form-control" onchange="this.form.submit()">
+                        </form>
+                    </div>
+                    <div class="col-md-2">
+                        <strong>R$ {{ "%.2f"|format(item.subtotal) }}</strong>
+                    </div>
+                    <div class="col-md-1">
+                        <form method="POST" action="{{ url_for('cart.remover', item_id=item.id) }}">
+                            <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-md-4">
+            <div class="order-summary">
+                <h4 class="text-navy mb-4">Resumo do Pedido</h4>
+                <div class="summary-item">
+                    <span>Subtotal:</span>
+                    <span>R$ {{ "%.2f"|format(cart.total) }}</span>
+                </div>
+                <div class="summary-item">
+                    <span>Itens:</span>
+                    <span>{{ cart.item_count }}</span>
+                </div>
+                <hr>
+                <div class="summary-total d-flex justify-content-between">
+                    <span>Total:</span>
+                    <span>R$ {{ "%.2f"|format(cart.total) }}</span>
+                </div>
+                <a href="{{ url_for('orders.checkout') }}" class="btn btn-rose w-100 mt-4">Finalizar Compra</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="bi bi-cart-x display-1 text-muted"></i>
+        <h3 class="mt-4">Seu carrinho está vazio</h3>
+        <a href="{{ url_for('products.listar') }}" class="btn btn-rose mt-3">Ver Produtos</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

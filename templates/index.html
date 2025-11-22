@@ -1,0 +1,212 @@
+
+{% extends "base.html" %}
+
+{% block title %}DonShop007 - Onde estilo encontra excelência{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="hero-title fade-in-up">Onde estilo encontra excelência</h1>
+                <p class="hero-subtitle fade-in-up">
+                    Transforme produtos comuns em itens únicos e personalizados
+                </p>
+                <p class="text-white-50 mb-4 fade-in-up">
+                    Canecas, copos e camisas customizadas com qualidade premium. 
+                    Crie algo especial que reflita sua personalidade ou surpreenda alguém com um presente único.
+                </p>
+                <div class="fade-in-up">
+                    <a href="{{ url_for('products.listar') }}" class="btn btn-rose btn-lg me-3">
+                        <i class="bi bi-shop"></i> Ver Produtos
+                    </a>
+                    <a href="#como-funciona" class="btn btn-outline-light btn-lg">
+                        Saiba Mais
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 d-none d-lg-block">
+                <img src="{{ url_for('static', filename='images/logo_ds_v3.png') }}" alt="DonShop007" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Como Funciona -->
+<section id="como-funciona" class="how-it-works">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Como Funciona</h2>
+            <p class="text-muted">Personalize seu produto em 3 passos simples</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="step-card position-relative">
+                    <div class="step-icon position-relative">
+                        <i class="bi bi-search"></i>
+                        <span class="step-number">1</span>
+                    </div>
+                    <h4 class="mb-3">Escolha seu Produto</h4>
+                    <p class="text-muted">
+                        Navegue por nossa seleção de canecas, copos e camisas de alta qualidade. 
+                        Escolha o produto que melhor se adequa ao seu estilo.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="step-card position-relative">
+                    <div class="step-icon position-relative">
+                        <i class="bi bi-brush"></i>
+                        <span class="step-number">2</span>
+                    </div>
+                    <h4 class="mb-3">Personalize</h4>
+                    <p class="text-muted">
+                        Adicione seu toque pessoal: texto, imagem ou ambos. 
+                        Crie algo único que represente você ou a pessoa presenteada.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="step-card position-relative">
+                    <div class="step-icon position-relative">
+                        <i class="bi bi-truck"></i>
+                        <span class="step-number">3</span>
+                    </div>
+                    <h4 class="mb-3">Receba em Casa</h4>
+                    <p class="text-muted">
+                        Finalize seu pedido e aguarde a entrega. 
+                        Enviamos para todo o Brasil com segurança e rapidez.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Produtos em Destaque -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Produtos em Destaque</h2>
+            <p class="text-muted">Confira nossa seleção especial</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for produto in produtos %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="position-relative">
+                        <img src="{{ url_for('static', filename='images/' ~ produto.imagem_url) }}" 
+                             class="card-img-top" 
+                             alt="{{ produto.nome }}">
+                        <span class="product-badge">{{ produto.categoria|capitalize }}</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ produto.nome }}</h5>
+                        <p class="card-text text-muted">{{ produto.descricao[:80] }}...</p>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="price">R$ {{ "%.2f"|format(produto.preco) }}</span>
+                            <div class="rating">
+                                {% for i in range(5) %}
+                                    {% if i < produto.average_rating %}
+                                        <i class="bi bi-star-fill"></i>
+                                    {% else %}
+                                        <i class="bi bi-star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                                <span class="text-muted small">({{ produto.review_count }})</span>
+                            </div>
+                        </div>
+                        
+                        <a href="{{ url_for('products.detalhe', id=produto.id) }}" class="btn btn-rose w-100">
+                            <i class="bi bi-eye"></i> Ver Detalhes
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="{{ url_for('products.listar') }}" class="btn btn-navy btn-lg">
+                Ver Todos os Produtos <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Por Que Escolher DonShop007 -->
+<section class="py-5 bg-light-rose">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Por Que Escolher DonShop007?</h2>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-3 text-center">
+                <div class="mb-3">
+                    <i class="bi bi-award-fill text-rose fs-1"></i>
+                </div>
+                <h5 class="text-navy">Qualidade Premium</h5>
+                <p class="text-muted small">
+                    Produtos de alta qualidade com acabamento impecável
+                </p>
+            </div>
+            
+            <div class="col-md-3 text-center">
+                <div class="mb-3">
+                    <i class="bi bi-palette-fill text-rose fs-1"></i>
+                </div>
+                <h5 class="text-navy">Personalização Única</h5>
+                <p class="text-muted small">
+                    Crie designs exclusivos com texto e imagens
+                </p>
+            </div>
+            
+            <div class="col-md-3 text-center">
+                <div class="mb-3">
+                    <i class="bi bi-shield-check text-rose fs-1"></i>
+                </div>
+                <h5 class="text-navy">Compra Segura</h5>
+                <p class="text-muted small">
+                    Pagamento protegido e dados criptografados
+                </p>
+            </div>
+            
+            <div class="col-md-3 text-center">
+                <div class="mb-3">
+                    <i class="bi bi-rocket-takeoff-fill text-rose fs-1"></i>
+                </div>
+                <h5 class="text-navy">Entrega Rápida</h5>
+                <p class="text-muted small">
+                    Enviamos para todo o Brasil com agilidade
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-navy text-white">
+    <div class="container text-center">
+        <h2 class="mb-4">Pronto para criar algo especial?</h2>
+        <p class="mb-4 text-white-50">
+            Junte-se a milhares de clientes satisfeitos que já personalizaram seus produtos conosco
+        </p>
+        {% if not current_user.is_authenticated %}
+        <a href="{{ url_for('auth.cadastro') }}" class="btn btn-rose btn-lg">
+            Criar Conta Grátis <i class="bi bi-arrow-right"></i>
+        </a>
+        {% else %}
+        <a href="{{ url_for('products.listar') }}" class="btn btn-rose btn-lg">
+            Começar a Personalizar <i class="bi bi-arrow-right"></i>
+        </a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

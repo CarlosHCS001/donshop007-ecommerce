@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Gerenciar Avaliações - Admin{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <h1 class="section-title mb-4">Avaliações</h1>
+    <div class="card">
+        <div class="card-body">
+            {% for avaliacao in avaliacoes.items %}
+            <div class="border-bottom pb-3 mb-3">
+                <strong>{{ avaliacao.user.nome }}</strong> - {{ avaliacao.product.nome }}<br>
+                <div class="rating">{% for i in range(avaliacao.rating) %}<i class="bi bi-star-fill"></i>{% endfor %}</div>
+                <p>{{ avaliacao.comentario }}</p>
+                <small class="text-muted">{{ avaliacao.created_at.strftime('%d/%m/%Y') }}</small>
+                <form method="POST" action="{{ url_for('admin.excluir_avaliacao', id=avaliacao.id) }}" class="d-inline">
+                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Excluir avaliação?')">Excluir</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

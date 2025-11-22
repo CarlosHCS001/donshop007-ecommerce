@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DonShop007 - Onde estilo encontra excelência. E-commerce de produtos personalizados.">
+    <title>{% block title %}DonShop007 - Onde estilo encontra excelência{% endblock %}</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Customizado -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-navy sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('main.index') }}">
+                <img src="{{ url_for('static', filename='images/logo_ds_v3.png') }}" alt="DonShop007" height="50">
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.index') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('products.listar') }}">Produtos</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Categorias
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('products.listar', categoria='caneca') }}">Canecas</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('products.listar', categoria='copo') }}">Copos</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('products.listar', categoria='camisa') }}">Camisas</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.sobre') }}">Sobre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.contato') }}">Contato</a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.is_admin %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('admin.dashboard') }}">
+                                    <i class="bi bi-gear-fill"></i> Admin
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('cart.ver_carrinho') }}">
+                                <i class="bi bi-cart3"></i> Carrinho
+                                {% if cart_count > 0 %}
+                                    <span class="badge bg-rose">{{ cart_count }}</span>
+                                {% endif %}
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i> {{ current_user.nome.split()[0] }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{{ url_for('orders.meus_pedidos') }}">Meus Pedidos</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Sair</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('auth.login') }}">
+                                <i class="bi bi-box-arrow-in-right"></i> Entrar
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-rose-outline" href="{{ url_for('auth.cadastro') }}">
+                                Cadastrar
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Mensagens Flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="container mt-3">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    <!-- Conteúdo Principal -->
+    {% block content %}{% endblock %}
+    
+    <!-- Footer -->
+    <footer class="bg-navy text-white mt-5">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <img src="{{ url_for('static', filename='images/logo_ds_v3.png') }}" alt="DonShop007" height="60" class="mb-3">
+                    <p class="text-muted">Onde estilo encontra excelência</p>
+                    <p class="small text-muted">
+                        Transforme produtos comuns em itens únicos e personalizados. 
+                        Qualidade, elegância e sofisticação em cada detalhe.
+                    </p>
+                </div>
+                
+                <div class="col-md-2 mb-4">
+                    <h5 class="text-rose mb-3">Menu</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('main.index') }}" class="text-muted text-decoration-none">Home</a></li>
+                        <li><a href="{{ url_for('products.listar') }}" class="text-muted text-decoration-none">Produtos</a></li>
+                        <li><a href="{{ url_for('main.sobre') }}" class="text-muted text-decoration-none">Sobre</a></li>
+                        <li><a href="{{ url_for('main.contato') }}" class="text-muted text-decoration-none">Contato</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-3 mb-4">
+                    <h5 class="text-rose mb-3">Categorias</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('products.listar', categoria='caneca') }}" class="text-muted text-decoration-none">Canecas</a></li>
+                        <li><a href="{{ url_for('products.listar', categoria='copo') }}" class="text-muted text-decoration-none">Copos</a></li>
+                        <li><a href="{{ url_for('products.listar', categoria='camisa') }}" class="text-muted text-decoration-none">Camisas</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-3 mb-4">
+                    <h5 class="text-rose mb-3">Contato</h5>
+                    <ul class="list-unstyled text-muted">
+                        <li class="mb-2"><i class="bi bi-envelope"></i> contato@donshop007.com</li>
+                        <li class="mb-2"><i class="bi bi-telephone"></i> (11) 98765-4321</li>
+                        <li class="mb-2"><i class="bi bi-clock"></i> Seg-Sex: 9h-18h</li>
+                    </ul>
+                    <div class="social-icons mt-3">
+                        <a href="#" class="text-muted me-3"><i class="bi bi-facebook fs-4"></i></a>
+                        <a href="#" class="text-muted me-3"><i class="bi bi-instagram fs-4"></i></a>
+                        <a href="#" class="text-muted me-3"><i class="bi bi-twitter fs-4"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="border-secondary">
+            
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="small text-muted mb-0">
+                        &copy; 2024 DonShop007. Todos os direitos reservados.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="small text-muted mb-0">
+                        Desenvolvido por Carlos Henrique - TCC Engenharia de Software
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- JS Customizado -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

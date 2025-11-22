@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard - DonShop007{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <h1 class="section-title mb-4">Painel Administrativo</h1>
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="stat-card">
+                <h3>{{ total_produtos }}</h3>
+                <p><i class="bi bi-box-seam"></i> Produtos</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <h3>{{ total_usuarios }}</h3>
+                <p><i class="bi bi-people"></i> Usuários</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <h3>{{ total_pedidos }}</h3>
+                <p><i class="bi bi-bag"></i> Pedidos</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="admin-sidebar">
+                <h5 class="text-navy mb-3">Menu</h5>
+                <a href="{{ url_for('admin.dashboard') }}" class="admin-menu-item active"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                <a href="{{ url_for('admin.listar_produtos') }}" class="admin-menu-item"><i class="bi bi-box-seam"></i> Produtos</a>
+                <a href="{{ url_for('admin.listar_pedidos') }}" class="admin-menu-item"><i class="bi bi-bag"></i> Pedidos</a>
+                <a href="{{ url_for('admin.listar_usuarios') }}" class="admin-menu-item"><i class="bi bi-people"></i> Usuários</a>
+                <a href="{{ url_for('admin.listar_avaliacoes') }}" class="admin-menu-item"><i class="bi bi-star"></i> Avaliações</a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="text-navy mb-4">Pedidos Recentes</h5>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Cliente</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Data</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for pedido in pedidos_recentes %}
+                                <tr>
+                                    <td>#{{ pedido.id }}</td>
+                                    <td>{{ pedido.user.nome }}</td>
+                                    <td>R$ {{ "%.2f"|format(pedido.total_com_frete) }}</td>
+                                    <td><span class="badge bg-info">{{ pedido.status }}</span></td>
+                                    <td>{{ pedido.created_at.strftime('%d/%m/%Y') }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

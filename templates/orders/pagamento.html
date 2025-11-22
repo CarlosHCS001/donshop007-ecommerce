@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Pagamento - DonShop007{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <h1 class="section-title mb-4">Pagamento</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body p-4">
+                    <h4 class="text-navy mb-4">Dados do Cartão (Simulado)</h4>
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label>Número do Cartão</label>
+                            <input type="text" class="form-control" placeholder="0000 0000 0000 0000" maxlength="19">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label>Validade</label>
+                                <input type="text" class="form-control" placeholder="MM/AA" maxlength="5">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label>CVV</label>
+                                <input type="text" class="form-control" placeholder="123" maxlength="3">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label>Nome no Cartão</label>
+                            <input type="text" class="form-control" placeholder="Como está no cartão">
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-3">
+                            <strong>Total a pagar:</strong>
+                            <strong class="text-rose">R$ {{ "%.2f"|format(order.total_com_frete) }}</strong>
+                        </div>
+                        <button type="submit" class="btn btn-rose w-100">Confirmar Pagamento</button>
+                        <p class="text-muted small text-center mt-3"><i class="bi bi-shield-check"></i> Pagamento seguro e simulado para fins de demonstração</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

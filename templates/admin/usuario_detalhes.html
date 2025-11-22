@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Usuário - Admin{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <h1 class="section-title mb-4">{{ usuario.nome }}</h1>
+    <div class="card">
+        <div class="card-body">
+            <p><strong>Email:</strong> {{ usuario.email }}</p>
+            <p><strong>Admin:</strong> {% if usuario.is_admin %}Sim{% else %}Não{% endif %}</p>
+            <p><strong>Cadastro:</strong> {{ usuario.created_at.strftime('%d/%m/%Y %H:%M') }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

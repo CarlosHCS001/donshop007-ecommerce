@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Gerenciar Usuários - Admin{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <h1 class="section-title mb-4">Usuários</h1>
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr><th>ID</th><th>Nome</th><th>Email</th><th>Admin</th><th>Cadastro</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for usuario in usuarios.items %}
+                        <tr>
+                            <td>{{ usuario.id }}</td>
+                            <td>{{ usuario.nome }}</td>
+                            <td>{{ usuario.email }}</td>
+                            <td>{% if usuario.is_admin %}<span class="badge bg-rose">Sim</span>{% else %}Não{% endif %}</td>
+                            <td>{{ usuario.created_at.strftime('%d/%m/%Y') }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
