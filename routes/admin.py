@@ -1,5 +1,5 @@
 """
-Rotas do painel administrativo
+Painel administrativo
 """
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
@@ -33,10 +33,10 @@ def dashboard():
     total_usuarios = User.query.count()
     total_pedidos = Order.query.count()
     
-    # Pedidos recentes
+    # Pedidos novos
     pedidos_recentes = Order.query.order_by(Order.created_at.desc()).limit(5).all()
     
-    # Produtos com baixo estoque
+    # Produtos em baixa no estoque
     produtos_estoque_baixo = Product.query.filter(Product.estoque < 10).all()
     
     return render_template('admin/dashboard.html',
@@ -47,7 +47,7 @@ def dashboard():
                          produtos_estoque_baixo=produtos_estoque_baixo)
 
 
-# ===== GERENCIAMENTO DE PRODUTOS =====
+# ==== Gerenciamento Dos Produtos ====
 
 @admin_bp.route('/produtos')
 @login_required
@@ -66,7 +66,7 @@ def listar_produtos():
 @login_required
 @admin_required
 def novo_produto():
-    """Criar novo produto"""
+    
     if request.method == 'POST':
         nome = request.form.get('nome')
         descricao = request.form.get('descricao')
@@ -102,7 +102,7 @@ def novo_produto():
 @login_required
 @admin_required
 def editar_produto(id):
-    """Editar produto"""
+    
     produto = Product.query.get_or_404(id)
     
     if request.method == 'POST':
@@ -125,7 +125,7 @@ def editar_produto(id):
 @login_required
 @admin_required
 def excluir_produto(id):
-    """Excluir produto"""
+    
     produto = Product.query.get_or_404(id)
     
     db.session.delete(produto)
@@ -135,13 +135,13 @@ def excluir_produto(id):
     return redirect(url_for('admin.listar_produtos'))
 
 
-# ===== GERENCIAMENTO DE PEDIDOS =====
+# ===== Gerenciamento de Pedidos =====
 
 @admin_bp.route('/pedidos')
 @login_required
 @admin_required
 def listar_pedidos():
-    """Lista todos os pedidos"""
+    
     page = request.args.get('page', 1, type=int)
     status = request.args.get('status', '')
     
@@ -161,7 +161,7 @@ def listar_pedidos():
 @login_required
 @admin_required
 def ver_pedido(id):
-    """Ver detalhes do pedido"""
+    
     pedido = Order.query.get_or_404(id)
     
     return render_template('admin/pedido_detalhes.html', pedido=pedido)
@@ -171,7 +171,7 @@ def ver_pedido(id):
 @login_required
 @admin_required
 def atualizar_status_pedido(id):
-    """Atualizar status do pedido"""
+    """atualizar status do pedido"""
     pedido = Order.query.get_or_404(id)
     
     novo_status = request.form.get('status')
@@ -193,7 +193,7 @@ def atualizar_status_pedido(id):
 @login_required
 @admin_required
 def listar_usuarios():
-    """Lista todos os usuários"""
+    "
     page = request.args.get('page', 1, type=int)
     usuarios = User.query.order_by(User.created_at.desc()).paginate(
         page=page, per_page=20, error_out=False
@@ -206,7 +206,7 @@ def listar_usuarios():
 @login_required
 @admin_required
 def ver_usuario(id):
-    """Ver detalhes do usuário"""
+    """ver detalhes do usuário"""
     usuario = User.query.get_or_404(id)
     
     return render_template('admin/usuario_detalhes.html', usuario=usuario)
@@ -233,13 +233,13 @@ def toggle_admin(id):
     return redirect(url_for('admin.ver_usuario', id=id))
 
 
-# ===== GERENCIAMENTO DE AVALIAÇÕES =====
+# ===== Gerenciamento de Avaliações =====
 
 @admin_bp.route('/avaliacoes')
 @login_required
 @admin_required
 def listar_avaliacoes():
-    """Lista todas as avaliações"""
+    
     page = request.args.get('page', 1, type=int)
     avaliacoes = Review.query.order_by(Review.created_at.desc()).paginate(
         page=page, per_page=20, error_out=False
@@ -252,7 +252,7 @@ def listar_avaliacoes():
 @login_required
 @admin_required
 def excluir_avaliacao(id):
-    """Excluir avaliação"""
+    """excluir avaliação"""
     avaliacao = Review.query.get_or_404(id)
     
     db.session.delete(avaliacao)
