@@ -7,7 +7,7 @@ from functools import wraps
 from models import db, Product, Order, User, Review
 from werkzeug.utils import secure_filename
 import os
-from config import Config
+
 
 admin_bp = Blueprint('admin', __name__)
 
