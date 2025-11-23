@@ -75,32 +75,6 @@ def create_app(config_name='default'):
 
 app = create_app(os.getenv('FLASK_ENV', 'development'))
 
-
-# rota temporaria para inicializar banco (REMOVER DEPOIS)
-@app.route('/iniciar-banco-2024')
-def iniciar_banco():
-    from init_db import init_database
-    try:
-        init_database()
-        return '<h1 style="color:green;">Banco criado!</h1><p>Admin: admin@donshop007.com / admin123</p><a href="/auth/login">Fazer Login</a>'
-    except Exception as e:
-        return f'<h1 style="color:red;">Erro:</h1><p>{str(e)}</p>'
-
-
-# rota para criar admin (REMOVER DEPOIS)
-@app.route('/criar-admin-2024')
-def criar_admin():
-    from models import User, Cart, db
-    try:
-        admin = User.query.filter_by(email='admin@donshop007.com').first()
-        if admin:
-            admin.set_password('admin123')
-            admin.is_admin = True
-            db.session.commit()
-            return '<h1 style="color:orange;">Senha do admin resetada!</h1><p>admin@donshop007.com / admin123</p><a href="/auth/login">Login</a>'
-        
-        admin = User(nome='Administrador', email='admin@donshop007.com', is_admin=True)
-        admin.set_password('admin123')
         db.session.add(admin)
         db.session.commit()
         
