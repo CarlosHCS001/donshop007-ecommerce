@@ -75,17 +75,6 @@ def create_app(config_name='default'):
 
 app = create_app(os.getenv('FLASK_ENV', 'development'))
 
-        db.session.add(admin)
-        db.session.commit()
-        
-        cart = Cart(user_id=admin.id)
-        db.session.add(cart)
-        db.session.commit()
-        
-        return '<h1 style="color:green;">Admin criado!</h1><p>admin@donshop007.com / admin123</p><a href="/auth/login">Login</a>'
-    except Exception as e:
-        return f'<h1 style="color:red;">Erro:</h1><p>{str(e)}</p>'
-
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
