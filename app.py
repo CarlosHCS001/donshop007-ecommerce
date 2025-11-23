@@ -81,5 +81,37 @@ def create_app(config_name='default'):
 # inicia app
 app = create_app(os.getenv('FLASK_ENV', 'development'))
 
+# Rota temporária para inicializar banco de dados (REMOVER DEPOIS)
+@app.route('/iniciar-banco-2024')
+def iniciar_banco():
+    from init_db import init_database
+    try:
+        init_database()
+        return '''
+        <html>
+        <head>
+            <title>Banco Inicializado</title>
+            <style>
+                body { font-family: Arial; padding: 50px; text-align: center; }
+                h1 { color: green; }
+                .info { background: #f0f0f0; padding: 20px; margin: 20px auto; max-width: 500px; border-radius: 10px; }
+                .warning { color: red; font-weight: bold; }
+                a { display: inline-block; margin-top: 20px; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; }
+            </style>
+        </head>
+        <body>
+            <h1>✅ Banco de Dados Criado com Sucesso!</h1>
+            <div class="info">
+                <p><strong>Usuário Admin:</strong> admin@donshop007.com</p>
+                <p><strong>Senha:</strong> admin123</p>
+            </div>
+            <p class="warning">⚠️ IMPORTANTE: Remova esta rota do código por segurança!</p>
+            <a href="/auth/login">Fazer Login Agora</a>
+        </body>
+        </html>
+        '''
+    except Exception as e:
+        return f'<h1 style="color: red;">❌ Erro ao criar banco:</h1><p>{str(e)}</p>'
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
