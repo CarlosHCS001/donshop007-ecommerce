@@ -247,16 +247,20 @@ Após executar `init_db.py`, você terá acesso às seguintes contas:
 ## 📸 Screenshots
 
 ### Página Inicial
-*[Adicione screenshot aqui]*
+*<img width="1302" height="768" alt="unnamed" src="https://github.com/user-attachments/assets/8075b572-5019-4cc4-9855-67a512d6a99e" />
+
 
 ### Catálogo de Produtos
-*[Adicione screenshot aqui]*
+* <img width="1221" height="819" alt="unnamed" src="https://github.com/user-attachments/assets/ae40bf40-6187-4111-8957-2d0b496ce022" />
+ *
 
 ### Carrinho de Compras
-*[Adicione screenshot aqui]*
+* <img width="1192" height="838" alt="unnamed" src="https://github.com/user-attachments/assets/0ca2164d-a840-479d-a1fc-8d4753882a0d" />
+  "
 
 ### Painel Administrativo
-*[Adicione screenshot aqui]*
+*<img width="1215" height="823" alt="unnamed" src="https://github.com/user-attachments/assets/ce758fe5-e794-4703-9937-1cbfcd5d3c1d" />
+*
 
 ---
 
