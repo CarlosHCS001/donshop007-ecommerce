@@ -7,9 +7,9 @@ from datetime import datetime
 from app import create_app
 from models import db, User, Product
 
-def init_database():
-    """cria tabelas e popula dados de exemplo"""
-    app = create_app('development')
+def init_database(app=None):
+    if app is None:
+        app = create_app('development')
 
     # senhas configuráveis via env (evita hardcode em CI/hosts públicos)
     ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'admin123')
