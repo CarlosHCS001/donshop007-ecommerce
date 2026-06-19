@@ -277,7 +277,7 @@ Após executar `init_db.py`, você terá acesso às seguintes contas:
 
 ## 📝 Licença
 
-Este projeto foi desenvolvido para fins acadêmicos como parte do TCC do curso de Engenharia de Software.
+Este projeto foi desenvolvido no inicio para fins acadêmicos como parte do TCC do curso de Engenharia de Software. Mas, no momento é utilizado para manutenção de habilidades.
 
 ---
 
